@@ -1,5 +1,6 @@
 package org.csu.petstorecms.controller;
 import org.csu.petstorecms.common.CommonResponse;
+import org.csu.petstorecms.service.AdminService;
 import org.csu.petstorecms.service.impl.ItemServiceImpl;
 import org.csu.petstorecms.utils.JWTUtils;
 import org.csu.petstorecms.vo.ItemVO;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class itemController {
     @Autowired
     private ItemServiceImpl itemService;
+    @Autowired
+    private AdminService adminService;
     @GetMapping("/")
     public String getname()
     {
@@ -25,8 +28,16 @@ public class itemController {
     public CommonResponse<Object> getItemlist(HttpServletRequest httpServletRequest)
     {
         String username=JWTUtils.verify(httpServletRequest);
-        List<ItemVO> itemVOList=itemService.getItemList();
-        return CommonResponse.createForSuccess(itemVOList);
+        if(adminService.getStatusByusername(username)==1){
+            List<ItemVO> itemVOList=itemService.getItemList();
+            return CommonResponse.createForSuccess(itemVOList);
+        }
+        else{
+            List<ItemVO> itemVOList=itemService.getSomeItem(username);
+            return CommonResponse.createForSuccess(itemVOList);
+        }
+
+
 
     }
     @PostMapping("/newitem")

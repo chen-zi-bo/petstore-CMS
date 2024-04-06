@@ -1,13 +1,9 @@
 package org.csu.petstorecms.service.impl;
 
-import org.csu.petstorecms.DAO.CategoryMapper;
-import org.csu.petstorecms.DAO.InventoryMapper;
-import org.csu.petstorecms.DAO.ItemMapper;
-import org.csu.petstorecms.DAO.ProductMapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.csu.petstorecms.DAO.*;
 import org.csu.petstorecms.common.CommonResponse;
-import org.csu.petstorecms.entity.Inventory;
-import org.csu.petstorecms.entity.Item;
-import org.csu.petstorecms.entity.Product;
+import org.csu.petstorecms.entity.*;
 import org.csu.petstorecms.vo.ItemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +21,8 @@ public class ItemServiceImpl {
     private ItemMapper itemMapper;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private AdminMapper adminMapper;
 
     public List<ItemVO> getItemList(){
         List<Item> itemList=itemMapper.selectList(null);
@@ -131,6 +129,35 @@ public class ItemServiceImpl {
             return CommonResponse.createForFailure("无该商品内容");
         }
 
+
+    }
+
+    public List<ItemVO> getSomeItem(String username) {
+        QueryWrapper<Admin> queryWrapper=new QueryWrapper<Admin>();
+        queryWrapper.eq("username",username);
+        Admin admin=adminMapper.selectOne(queryWrapper);
+        int adminId=admin.getId();
+        QueryWrapper<Item> queryWrapper1=new QueryWrapper<Item>();
+        queryWrapper1.eq("supplier",adminId);
+        List<Item> itemList=itemMapper.selectList(queryWrapper1);
+
+        List<ItemVO> itemVOList=new ArrayList<>();
+
+        for(int i=0;i<itemList.size();i++){
+            ItemVO itemVO=new ItemVO();
+
+
+            Product product=productMapper.selectById(itemList.get(i).getProductid());
+
+
+            Inventory inventory=inventoryMapper.selectById(itemList.get(i).getItemid());
+
+            setOneVo(itemVO,itemList.get(i),product,inventory);
+
+
+            itemVOList.add(itemVO);
+        }
+        return itemVOList;
 
     }
 }

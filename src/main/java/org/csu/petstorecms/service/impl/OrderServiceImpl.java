@@ -1,17 +1,23 @@
 package org.csu.petstorecms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.csu.petstorecms.DAO.AdminMapper;
 import org.csu.petstorecms.DAO.OrderMapper;
 import org.csu.petstorecms.common.CommonResponse;
+import org.csu.petstorecms.entity.Admin;
 import org.csu.petstorecms.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl {
     @Autowired
     OrderMapper orderMapper;
+    @Autowired
+    AdminMapper adminMapper;
 
     public CommonResponse<Object> getAllOrderlist()
     {
@@ -53,5 +59,23 @@ public class OrderServiceImpl {
         else{
             return CommonResponse.createForFailure("删除失败");
         }
+    }
+
+    public CommonResponse<Object> getSomeOrder(String username) {
+        List<Order> ordersList=orderMapper.selectList(null);
+        QueryWrapper<Admin> queryWrapper=new QueryWrapper<Admin>();
+        queryWrapper.eq("username",username);
+        Admin admin=adminMapper.selectOne(queryWrapper);
+        String manageName=admin.getRealName();
+        List<Order> result=new ArrayList<>();
+        for(int i=0;i<ordersList.size();i++){
+            String firstName=ordersList.get(i).getRealfirstname();
+            String lastName=ordersList.get(i).getReallastname();
+            String name=lastName+firstName;
+            if(name.equals(manageName)){
+                result.add(ordersList.get(i));
+            }
+        }
+        return CommonResponse.createForSuccess(result);
     }
 }

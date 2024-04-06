@@ -3,9 +3,10 @@ package org.csu.petstorecms.service;
 import javax.servlet.http.HttpServletRequest;
 import org.csu.petstorecms.common.CommonResponse;
 import org.csu.petstorecms.entity.Admin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.Map;
 
 //import javax.servlet.http.HttpServletRequest;
 
@@ -46,4 +47,8 @@ public interface AdminService {
     public CommonResponse<Object> getAllAccounts(HttpServletRequest request);
 
     public int getStatusByUsername(String username);
+
+    public CommonResponse<Object> updateSeller(HttpServletRequest request,@RequestBody Map sellerToUpdate);
+
+    public CommonResponse<Object> removeSeller(HttpServletRequest request,@RequestBody Map sellerToRemove);
 }

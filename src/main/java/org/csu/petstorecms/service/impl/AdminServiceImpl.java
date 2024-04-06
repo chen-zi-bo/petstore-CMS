@@ -49,11 +49,57 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.selectList(queryWrapper);
     }
 
+    private int removeAdmin(String username){
+        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        int result = adminMapper.delete(queryWrapper);
+        return result;
+    }
+
+    @Override
     public int getStatusByUsername(String username){
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username",username);
         return adminMapper.selectOne(queryWrapper).getStatus();
     }
+
+    @Override
+    public CommonResponse<Object> updateSeller(HttpServletRequest request, Map sellerToUpdate) {
+        String usernameFromToken = JWTUtils.verify(request);
+        Admin adminByUsername = this.getAdminByUsername(usernameFromToken);
+        if(adminByUsername.getStatus()==0){
+            return CommonResponse.createForFailure("您无权进行此操作");
+        }
+        else {
+            String username= (String) sellerToUpdate.get("username");
+            String password= (String) sellerToUpdate.get("password");
+            String realName= (String) sellerToUpdate.get("real_name");
+            String email= (String) sellerToUpdate.get("email");
+            String phone= (String) sellerToUpdate.get("phone");
+            String address= (String) sellerToUpdate.get("address");
+            return this.updateAccount(username,password,email,realName,phone,address);
+        }
+    }
+
+    @Override
+    public CommonResponse<Object> removeSeller(HttpServletRequest request, Map sellerToRemove) {
+        String usernameFromToken = JWTUtils.verify(request);
+        Admin adminByUsername = this.getAdminByUsername(usernameFromToken);
+        if(adminByUsername.getStatus()==0){
+            return CommonResponse.createForFailure("您无权进行此操作");
+        }
+        else {
+            String username = (String) sellerToRemove.get("username");
+            int result = this.removeAdmin(username);
+            if(result == 0){
+                return CommonResponse.createForFailure("删除商家失败");
+            }
+            else {
+                return CommonResponse.createForSuccessMessage("删除商家成功");
+            }
+        }
+    }
+
     @Override
     public CommonResponse<Object> updateAccount(String username,String password,String email,String realName,String phone,String address){
         // todo: 修改信息，token需要重新生成一个吗？修改信息，username允许修改吗？

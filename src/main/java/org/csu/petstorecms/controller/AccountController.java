@@ -22,12 +22,6 @@ public class AccountController {
     @Autowired
     private AdminService adminService;
 
-    /**
-     * 登录时验证码
-//     * @param httpServletRequest
-//     * @param httpServletResponse
-     * @throws Exception
-     */
     @PostMapping("/user")
     @ResponseBody
     public CommonResponse<Object> login(@RequestBody Map login){
@@ -73,5 +67,15 @@ public class AccountController {
         return adminService.getAllAccounts(request);
     }
 
+    @PostMapping("/updateseller")
+    @ResponseBody
+    public CommonResponse<Object> updateSeller(HttpServletRequest request,@RequestBody Map sellerToUpdate){
+        return adminService.updateSeller(request,sellerToUpdate);
+    }
 
+    @PostMapping("/removeseller")
+    @ResponseBody
+    public CommonResponse<Object> removeSeller(HttpServletRequest request,@RequestBody Map sellerToRemove){
+        return adminService.removeSeller(request,sellerToRemove);
+    }
 }

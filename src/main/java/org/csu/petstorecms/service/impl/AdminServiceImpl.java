@@ -110,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = new Admin();
         admin.setPassword(password);
         admin.setEmail(email);
-        admin.setRealName(realName);
+        admin.setReal_name(realName);
         admin.setPhone(phone);
         admin.setAddress(address);
         int result = adminMapper.update(admin, updateWrapper);
@@ -192,7 +192,7 @@ public class AdminServiceImpl implements AdminService {
             admin.setUsername(username);
             admin.setPassword(password);
             admin.setEmail(email);
-            admin.setRealName(realName);
+            admin.setReal_name(realName);
             admin.setPhone(phone);
             admin.setAddress(address);
             admin.setStatus(0); // 默认是商家

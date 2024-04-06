@@ -66,7 +66,7 @@ public class OrderServiceImpl {
         QueryWrapper<Admin> queryWrapper=new QueryWrapper<Admin>();
         queryWrapper.eq("username",username);
         Admin admin=adminMapper.selectOne(queryWrapper);
-        String manageName=admin.getRealName();
+        String manageName=admin.getReal_name();
         List<Order> result=new ArrayList<>();
         for(int i=0;i<ordersList.size();i++){
             String firstName=ordersList.get(i).getRealfirstname();

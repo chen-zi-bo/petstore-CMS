@@ -1,6 +1,6 @@
 package org.csu.petstorecms.service;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.csu.petstorecms.common.CommonResponse;
 import org.csu.petstorecms.entity.Admin;
 import org.springframework.web.bind.annotation.RequestParam;

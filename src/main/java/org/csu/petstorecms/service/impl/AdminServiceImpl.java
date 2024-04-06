@@ -3,15 +3,17 @@ package org.csu.petstorecms.service.impl;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-
-import jakarta.servlet.http.HttpServletRequest;
-import org.csu.petstorecms.DAO.AdminMapper;
+import javax.servlet.http.HttpServletRequest;
 import org.csu.petstorecms.common.CommonResponse;
 import org.csu.petstorecms.entity.Admin;
+import org.csu.petstorecms.DAO.AdminMapper;
 import org.csu.petstorecms.service.AdminService;
 import org.csu.petstorecms.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+//import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
             return CommonResponse.createForFailure("用户信息已过期，请重新登录");
         }
         else {
-            return CommonResponse.createForSuccess("修改信息成功");
+            return CommonResponse.createForSuccessMessage("修改信息成功");
         }
     }
 
@@ -95,6 +97,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public CommonResponse<Object> login(String username, String password) {
+
         if(this.getAdminByUsername(username) == null){
             return CommonResponse.createForFailure("用户名不存在");
         }
@@ -105,8 +108,7 @@ public class AdminServiceImpl implements AdminService {
         else {
 //            String token = this.createToken(admin);
             String token = JWTUtils.getToken(admin.getUsername());
-            admin.setPassword(null);
-            return CommonResponse.createForSuccess(token);
+            return CommonResponse.createForSuccess(admin,token);
         }
     }
 
@@ -130,7 +132,7 @@ public class AdminServiceImpl implements AdminService {
             if(result == 0){
                 return CommonResponse.createForFailure("服务器内部错误，未成功向数据库插入数据");
             }
-            return CommonResponse.createForSuccess("注册成功");
+            return CommonResponse.createForSuccessMessage("注册成功");
         }
     }
 

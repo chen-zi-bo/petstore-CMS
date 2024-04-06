@@ -10,6 +10,7 @@ public class CommonResponse<T> {
         private int status;
         private String message;
         private T data;
+        private String token;
         private CommonResponse(int status ,String message){
             this.status=status;
             this.message=message;
@@ -19,18 +20,27 @@ public class CommonResponse<T> {
             this.message=message;
             this.data=data;
         }
+         private CommonResponse(int status,String message,T data,String token){
+            this.status=status;
+            this.message=message;
+            this.data=data;
+            this.token=token;
+        }
         public static<T> CommonResponse<T> createForSuccessMessage(String message){
-            return new CommonResponse<>(1,message);
+            return new CommonResponse<>(0,message);
         }
         public static<T> CommonResponse<T> createForSuccess(T data){
-            return new CommonResponse<>(1,"请求成功",data);
+            return new CommonResponse<>(0,"请求成功",data);
+        }
+        public static<T> CommonResponse<T> createForSuccess(T data,String token){
+            return new CommonResponse<>(0,"请求成功",data,token);
         }
 
         public static<T> CommonResponse<T> createForFailure() {
-            return new CommonResponse<>(0,"请求错误");
+            return new CommonResponse<>(1,"请求错误");
         }
         public static<T> CommonResponse<T> createForFailure(String message) {
-            return new CommonResponse<>(0,message);
+            return new CommonResponse<>(1,message);
         }
 
 }

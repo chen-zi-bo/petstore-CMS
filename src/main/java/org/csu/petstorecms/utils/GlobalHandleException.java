@@ -22,9 +22,9 @@ public class GlobalHandleException {
         return CommonResponse.createForFailure("用户信息已过期，请重新登录");
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public CommonResponse<Object> ElseException(){
-        return CommonResponse.createForFailure("页面找不到啦");
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseBody
+//    public CommonResponse<Object> ElseException(){
+//        return CommonResponse.createForFailure("页面找不到啦");
+//    }
 }

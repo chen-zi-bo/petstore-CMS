@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 //import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -42,6 +43,17 @@ public class AdminServiceImpl implements AdminService {
         return admin;
     }
 
+    private List<Admin> getAccounts(){
+        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status",0);
+        return adminMapper.selectList(queryWrapper);
+    }
+
+    public int getStatusByUsername(String username){
+        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        return adminMapper.selectOne(queryWrapper).getStatus();
+    }
     @Override
     public CommonResponse<Object> updateAccount(String username,String password,String email,String realName,String phone,String address){
         // todo: 修改信息，token需要重新生成一个吗？修改信息，username允许修改吗？
@@ -93,6 +105,17 @@ public class AdminServiceImpl implements AdminService {
 //                return CommonResponse.createForSuccess("SUCCESS",admin);
 //            }
 //        }
+    }
+
+    @Override
+    public CommonResponse<Object> getAllAccounts(HttpServletRequest request) {
+        String usernameFromToken = JWTUtils.verify(request);
+        Admin adminByUsername = this.getAdminByUsername(usernameFromToken);
+        if(adminByUsername.getStatus()==0){
+            return CommonResponse.createForFailure("您无权访问该信息");
+        }
+        List<Admin> admins =this.getAccounts();
+        return CommonResponse.createForSuccess(admins);
     }
 
     @Override

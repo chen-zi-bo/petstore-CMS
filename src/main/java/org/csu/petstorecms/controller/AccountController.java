@@ -46,7 +46,6 @@ public class AccountController {
         String phone= (String) register.get("phone");
         String address= (String) register.get("address");
 
-        System.out.println(21312);
         return adminService.register(username,password,email, realName, phone,address);
     }
 
@@ -66,6 +65,12 @@ public class AccountController {
         String phone= (String) updateUser.get("phone");
         String address= (String) updateUser.get("address");
         return adminService.updateAccount(username,password,email, realName, phone,address);
+    }
+
+    @GetMapping("/sellers")
+    @ResponseBody
+    public CommonResponse<Object> getAllAccounts(HttpServletRequest request){
+        return adminService.getAllAccounts(request);
     }
 
 

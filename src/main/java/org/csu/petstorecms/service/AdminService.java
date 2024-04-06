@@ -37,4 +37,9 @@ public interface AdminService {
      * @return
      */
     public CommonResponse<Object> getUserInfo(HttpServletRequest request);
+
+    /**
+     * 管理员获取所有的商家的信息
+     */
+    public CommonResponse<Object> getAllAccounts(HttpServletRequest request);
 }

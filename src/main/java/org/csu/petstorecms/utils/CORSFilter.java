@@ -1,17 +1,17 @@
 package org.csu.petstorecms.utils;
 
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import jakarta.servlet.http.HttpServletResponse;
 @Configuration
 @WebFilter(filterName = "CORSFilter")
 public class CORSFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println(1);
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         // 设置允许跨域访问的源，例如 "*" 表示允许所有来源
         response.setHeader("Access-Control-Allow-Origin", "*");

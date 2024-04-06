@@ -19,8 +19,8 @@ public class CommonResponse<T> {
             this.message=message;
             this.data=data;
         }
-        public static<T> CommonResponse<T> createForSuccess(){
-            return new CommonResponse<>(1,"请求成功");
+        public static<T> CommonResponse<T> createForSuccessMessage(String message){
+            return new CommonResponse<>(1,message);
         }
         public static<T> CommonResponse<T> createForSuccess(T data){
             return new CommonResponse<>(1,"请求成功",data);

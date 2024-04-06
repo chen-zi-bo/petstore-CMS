@@ -5,6 +5,8 @@ import org.csu.petstorecms.common.CommonResponse;
 import org.csu.petstorecms.entity.Admin;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 //import javax.servlet.http.HttpServletRequest;
 
 public interface AdminService {
@@ -42,4 +44,6 @@ public interface AdminService {
      * 管理员获取所有的商家的信息
      */
     public CommonResponse<Object> getAllAccounts(HttpServletRequest request);
+
+    public int getStatusByUsername(String username);
 }

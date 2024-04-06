@@ -28,7 +28,7 @@ public class itemController {
     public CommonResponse<Object> getItemlist(HttpServletRequest httpServletRequest)
     {
         String username=JWTUtils.verify(httpServletRequest);
-        if(adminService.getStatusByusername(username)==1){
+        if(adminService.getStatusByUsername(username)==1){
             List<ItemVO> itemVOList=itemService.getItemList();
             return CommonResponse.createForSuccess(itemVOList);
         }

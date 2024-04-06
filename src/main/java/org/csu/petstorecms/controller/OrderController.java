@@ -25,7 +25,7 @@ public class OrderController {
     public CommonResponse<Object> getAllOrder(HttpServletRequest httpServletRequest){
         String username= JWTUtils.verify(httpServletRequest);
 
-        if(adminService.getStatusByusername(username)==1){
+        if(adminService.getStatusByUsername(username)==1){
 
             return orderService.getAllOrderlist();
         }

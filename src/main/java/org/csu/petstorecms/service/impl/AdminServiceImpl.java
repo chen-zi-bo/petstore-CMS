@@ -29,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
         // 链式调用，相当于设置两个条件，查表中username = username 且 password = password的
         queryWrapper.eq("username",username).eq("password",password);
         Admin admin = adminMapper.selectOne(queryWrapper);
+        System.out.println("11"+admin.getRealName());
         return admin;
     }
 
@@ -110,7 +111,7 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = new Admin();
         admin.setPassword(password);
         admin.setEmail(email);
-        admin.setReal_name(realName);
+        admin.setRealName(realName);
         admin.setPhone(phone);
         admin.setAddress(address);
         int result = adminMapper.update(admin, updateWrapper);
@@ -177,6 +178,7 @@ public class AdminServiceImpl implements AdminService {
         else {
 //            String token = this.createToken(admin);
             String token = JWTUtils.getToken(admin.getUsername());
+            System.out.println(admin.getRealName());
             return CommonResponse.createForSuccess(admin,token);
         }
     }
@@ -192,7 +194,7 @@ public class AdminServiceImpl implements AdminService {
             admin.setUsername(username);
             admin.setPassword(password);
             admin.setEmail(email);
-            admin.setReal_name(realName);
+            admin.setRealName(realName);
             admin.setPhone(phone);
             admin.setAddress(address);
             admin.setStatus(0); // 默认是商家

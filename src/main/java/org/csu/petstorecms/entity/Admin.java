@@ -15,7 +15,7 @@ public class Admin {
     private String password;
     private String email;
     @TableField("real_name")
-    private String real_name;
+    private String realName;
     private String phone;
     private String address;
     private int status;  //0表示商家，1表示超级管理员，可以管理商家
